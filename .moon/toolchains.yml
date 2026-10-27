@@ -1,0 +1,16 @@
+node: {}
+
+yarn: {}
+
+javascript:
+  packageManager: yarn
+  syncPackageManagerField: true
+
+typescript:
+  createMissingConfig: true
+  includeProjectReferenceSources: true
+  includeSharedTypes: true
+  pruneProjectReferences: true
+  routeOutDirToCache: true
+  syncProjectReferences: true
+  syncProjectReferencesToPaths: false

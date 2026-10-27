@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.options.json",
+  "include": ["**/*"],
+  "exclude": ["apps", "packages", "node_modules", ".moon", ".yarn"],
+  "references": [],
+  "compilerOptions": {
+    "lib": ["ESNext"],
+    "types": ["node"],
+    "outDir": ".moon/cache/types"
+  }
+}
