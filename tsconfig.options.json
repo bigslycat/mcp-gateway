@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "composite": false,
+    "target": "esnext",
+    "lib": ["ESNext"],
+    "types": [],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "checkJs": true,
+    "resolveJsonModule": true,
+    "resolvePackageJsonExports": true,
+    "resolvePackageJsonImports": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
+  }
+}

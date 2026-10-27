@@ -1,0 +1,112 @@
+id: root
+layer: configuration
+stack: systems
+language: typescript
+
+toolchains:
+  typescript:
+    projectConfigFileName: tsconfig.root.json
+
+fileGroups:
+  oxlint:
+    - '**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'
+
+  oxfmt:
+    - '**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'
+    - '**/*.{json,jsonc,json5}'
+    - '**/*.{css,scss,less,pcss,postcss}'
+    - '**/*.{graphql,gql,graphqls}'
+    - '**/*.{toml}'
+    - '**/*.{yml,yaml}'
+    - '**/*.{html,htm,xhtml}'
+    - '**/*.{md,markdown,mdx}'
+    - '**/*.{hbs,handlebars}'
+
+  qualityExcludes:
+    - '!.agents/skills/**/*'
+    - '!.codegraph/**/*'
+    - '!.moon/cache/**/*'
+    - '!.moon/docker/**/*'
+    - '!.playwright-cli/**/*'
+    - '!.pnp.*'
+    - '!.yarn/ignore/**/*'
+    - '!.yarn/install-state.gz'
+    - '!**/dist/**/*'
+    - '!**/node_modules/**/*'
+    - '!**/target/**/*'
+
+tasks:
+  install:
+    command: yarn install --immutable
+    options:
+      cache: false
+
+  lint:
+    deps:
+      - install
+    command: oxlint
+    inputs:
+      - '@globs(oxlint)'
+      - '@globs(qualityExcludes)'
+      - '**/.gitignore'
+
+  lint-fix:
+    deps:
+      - install
+    command: oxlint --fix
+    inputs:
+      - '@globs(oxlint)'
+      - '@globs(qualityExcludes)'
+      - '**/.gitignore'
+    options:
+      cache: false
+      runInCI: false
+
+  fmt:
+    deps:
+      - install
+    command: oxfmt
+    inputs:
+      - '@globs(oxfmt)'
+      - '@globs(qualityExcludes)'
+      - .editorconfig
+      - '**/.gitignore'
+    options:
+      cache: false
+      runInCI: false
+
+  fmt-check:
+    deps:
+      - install
+    command: oxfmt --check
+    inputs:
+      - '@globs(oxfmt)'
+      - '@globs(qualityExcludes)'
+      - .editorconfig
+      - '**/.gitignore'
+
+  typecheck:
+    deps:
+      - install
+    command: tsc --noEmit -p tsconfig.root.json
+    inputs:
+      - '**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'
+      - package.json
+      - tsconfig.options.json
+      - tsconfig.root.json
+      - yarn.lock
+      - '!apps/**/*'
+      - '!packages/**/*'
+      - '@globs(qualityExcludes)'
+
+  typecheck-solution:
+    deps:
+      - install
+    command: tsc -b tsconfig.json --noEmit
+    inputs:
+      - '**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'
+      - '**/package.json'
+      - '**/tsconfig.json'
+      - '**/tsconfig.*.json'
+      - yarn.lock
+      - '@globs(qualityExcludes)'

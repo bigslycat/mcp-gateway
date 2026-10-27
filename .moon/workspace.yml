@@ -1,0 +1,10 @@
+projects:
+  - .
+  - apps/*
+  - packages/*
+
+vcs:
+  defaultBranch: main
+  provider: github
+  client: git
+  hookFormat: native
